@@ -4,19 +4,20 @@
 #include <time.h>
 
 
+void merge_sort(int array[], int left, int right);
+void merge(int array[], int left, int right, int middle);
+void printArray(int A[], int size);
 
-
-int main (int argc, char *argv[]) {
-
-}
+//int main (int argc, char *argv[]) {}
 
 
 //merge sort function used with help from geeksforgeek algorithm
-void mergesort(int array[], int left, int right) {
-	if (left > right) {
-		int middle = left + ((right-1)/2);
-		mergesort(array, left, middle);
-		mergesort(array, middle+1, right);
+void merge_sort(int array[], int left, int right) {
+	if (left < right) {
+		int middle = left + ((right-left) / 2);
+		
+		merge_sort(array, left, middle);
+		merge_sort(array, middle+1, right);
 		merge(array, left, right, middle);
 	}
 }
@@ -63,3 +64,26 @@ void merge(int array[], int left, int right, int middle) {
 	}
 }
 
+void printArray(int A[], int size) 
+{ 
+    int i; 
+    for (i=0; i < size; i++) 
+        printf("%d ", A[i]); 
+    printf("\n"); 
+} 
+  
+/* Driver program to test above functions */
+int main() 
+{ 
+    int arr[] = {12, 11, 13, 5, 6, 7}; 
+    int arr_size = sizeof(arr)/sizeof(arr[0]); 
+  
+    printf("Given array is \n"); 
+    printArray(arr, arr_size); 
+  
+    merge_sort(arr, 0, arr_size - 1); 
+  
+    printf("\nSorted array is \n"); 
+    printArray(arr, arr_size); 
+    return 0; 
+} 
