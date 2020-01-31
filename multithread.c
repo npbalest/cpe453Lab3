@@ -15,7 +15,7 @@ void printArray(int A[], int size);
 void merge_sort(int array[], int left, int right) {
 	if (left < right) {
 		int middle = left + ((right-left) / 2);
-		
+
 		merge_sort(array, left, middle);
 		merge_sort(array, middle+1, right);
 		merge(array, left, right, middle);
@@ -64,11 +64,11 @@ void merge(int array[], int left, int right, int middle) {
 	}
 }
 
-void printArray(int A[], int size) 
+void print_list(int array[], int size) 
 { 
     int i; 
-    for (i=0; i < size; i++) 
-        printf("%d ", A[i]); 
+    for (i = 0; i < size; i++) 
+        printf("%d ", array[i]); 
     printf("\n"); 
 } 
   
@@ -79,11 +79,11 @@ int main()
     int arr_size = sizeof(arr)/sizeof(arr[0]); 
   
     printf("Given array is \n"); 
-    printArray(arr, arr_size); 
+    print_list(arr, arr_size); 
   
     merge_sort(arr, 0, arr_size - 1); 
   
     printf("\nSorted array is \n"); 
-    printArray(arr, arr_size); 
+    print_list(arr, arr_size); 
     return 0; 
 } 
