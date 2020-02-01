@@ -2,67 +2,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <pthread.h>
+#include <time.h> 
 
+#define NUM_THREADS 2 
+#define ARR_SIZE 3000000
 
-void merge_sort(int array[], int left, int right);
-void merge(int array[], int left, int right, int middle);
-void printArray(int A[], int size);
+void print_list(int array[], int size);
+void *sorting(void *param); //Threads call this function
 
-//int main (int argc, char *argv[]) {}
-
-
-//merge sort function used with help from geeksforgeek algorithm
-void merge_sort(int array[], int left, int right) {
-	if (left < right) {
-		int middle = left + ((right-left) / 2);
-
-		merge_sort(array, left, middle);
-		merge_sort(array, middle+1, right);
-		merge(array, left, right, middle);
-	}
-}
-
-void merge(int array[], int left, int right, int middle) {
-	int a, b;
-	int i = middle - left + 1;
-	int j = right - middle;
-
-	int temp1[i];
-	int temp2[j];
-
-	for (a = 0; a < i; a++) {
-		temp1[a] = array[a + left];
-	}
-	for (b = 0; b < j; b++) {
-		temp2[b] = array[b + middle + 1];
-	}
-
-	a = 0;
-	b = 0;
-	int c = left;
-
-	while ((a < i) && (b < j)) {
-		if (temp1[a] <= temp2[b]) {
-			array[c] = temp1[a];
-			a++;
-		}
-		else {
-			array[c] = temp2[b];
-			b++;
-		}
-		c++;
-	}
-	while (a < i) {
-		array[c] = temp1[a];
-		a++;
-		c++;
-	}
-	while (b < j) {
-		array[c] = temp2[b];
-		b++;
-		c++;
-	}
-}
+int arr[ARR_SIZE] = {}; //array shared by all threads
 
 void print_list(int array[], int size) 
 { 
@@ -73,17 +22,51 @@ void print_list(int array[], int size)
 } 
   
 /* Driver program to test above functions */
-int main() 
+int main(int argc, char *argv[]) 
 { 
-    int arr[] = {12, 11, 13, 5, 6, 7}; 
-    int arr_size = sizeof(arr)/sizeof(arr[0]); 
-  
-    printf("Given array is \n"); 
+    int num, i;
+
+    FILE *in;
+
+    in = fopen(argv[1],"r");
+
+    while (!feof (in) && fscanf (in, "%d", &num) && i++ < NUM_THREADS){
+        arr[i] = num;
+    }
+
+    pthread_t tid[NUM_THREADS]; //thread identifier
+    pthread_attr_t attr[NUM_THREADS]; //set of thread attributes
+
+    //initialize all thread attributes
+    for (i = 0; i < NUM_THREADS; i++){
+        pthread_attr_init(&attr[i]);
+    }
+
+    //creates all threads with appropiate arguments
+    for (i = 0; i < NUM_THREADS; i++){
+        pthread_create(&tid[i], &attr[i], sorting, tid);
+    }
+
+    //joins all threads
+    for (i = 0; i < NUM_THREADS; i++){
+        pthread_join(tid[i], NULL);
+    }
+
     print_list(arr, arr_size); 
-  
-    merge_sort(arr, 0, arr_size - 1); 
-  
-    printf("\nSorted array is \n"); 
-    print_list(arr, arr_size); 
+
+    fclose(in);
+
     return 0; 
-} 
+}
+
+//Threads will begin control in this function
+void *sorting(void *param)
+{
+    if (pthread_self() == tid[0]) {
+        //lower bound
+    } else {
+        //upper bound
+    }
+
+    pthread_exit(0);
+}
