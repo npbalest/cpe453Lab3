@@ -51,12 +51,12 @@ int main(int argc, char* argv[])
     first_half = (int *)malloc(sizeof(int)*(i/2));
     second_half = (int *)malloc(sizeof(int)*(i/2));
 
-    if(first_array == NULL) {
+    if(first_half == NULL) {
       printf("first malloc of size %d failed!\n", i);   // could also call perror here
       exit(1);   // or return an error to caller
     }
 
-    if(second_array == NULL) {
+    if(second_half == NULL) {
       printf("second malloc of size %d failed!\n", i);   // could also call perror here
       exit(1);   // or return an error to caller
     }
