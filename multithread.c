@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     //creates all threads with appropiate arguments
     for (i = 0; i < NUM_THREADS; i++){
-        pthread_create(&tid[i], &attr[i], sorting, tid);
+        pthread_create(&tid[i], &attr[i], sorting, tid[0]);
     }
 
     //joins all threads
