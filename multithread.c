@@ -79,12 +79,14 @@ int main(int argc, char* argv[])
 
     pthread_t tid[NUM_THREADS];
 
+    int b = 0;
+    int c = 0;
 
-    for (int b = 0; b < NUM_THREADS; b++) {
+    for (b = 0; b < NUM_THREADS; b++) {
         pthread_create(&tid[b], NULL, sorting, NULL);
     }
 
-    for (int c = 0; c < NUM_THREADS; c++) {
+    for (c = 0; c < NUM_THREADS; c++) {
         pthread_join(tid[i], NULL);
     }
 
