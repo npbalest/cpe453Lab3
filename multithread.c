@@ -12,8 +12,8 @@ int cmpfunc (const void * a, const void * b);
 void print_list(int array[], int size);
 
 int arr[ARR_SIZE] = {};
-int first_half[] = {};
-int second_half[] = {};
+int first_half = NULL;
+int second_half = NULL;
 int threadpart = 1;
 
 
@@ -48,8 +48,8 @@ int main(int argc, char* argv[])
     printf("Given array is \n"); 
     print_list(arr, i); 
 
-    first_half[] = (int *)malloc(sizeof(int)*(i/2));
-    second_half[] = (int *)malloc(sizeof(int)*(i/2));
+    first_half = (int *)malloc(sizeof(int)*(i/2));
+    second_half = (int *)malloc(sizeof(int)*(i/2));
 
     if(first_array == NULL) {
       printf("first malloc of size %d failed!\n", i);   // could also call perror here
