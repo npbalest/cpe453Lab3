@@ -48,8 +48,8 @@ int main(int argc, char* argv[])
     printf("Given array is \n"); 
     print_list(arr, i); 
 
-    first_half = (int *)malloc(sizeof(int)*(i/2));
-    second_half = (int *)malloc(sizeof(int)*(i/2));
+    first_half = (int *)calloc((i/2), sizeof(int));
+    second_half = (int *)calloc((i/2), sizeof(int));
 
     if(first_half == NULL) {
       printf("first malloc of size %d failed!\n", i);   // could also call perror here
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
     }
 
     for (c = 0; c < NUM_THREADS; c++) {
-        pthread_join(tid[i], NULL);
+        pthread_join(tid[c], NULL);
     }
 
     printf("\nSorted array is \n"); 
