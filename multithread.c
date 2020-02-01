@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 //Threads will begin control in this function
 void *sorting(void *param)
 {
-    if (pthread_self() == param[0]) {
+    if (pthread_self() == (int)param[0]) {
         //lower bound
     } else {
         //upper bound
