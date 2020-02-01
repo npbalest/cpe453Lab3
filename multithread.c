@@ -17,6 +17,12 @@ int first_half[] = {};
 int second_half[] = {};
 int threadpart = 1;
 
+
+//Need to do
+//dup so you can compare both runtimes
+//find arr to put in with fgets
+
+
 //Driver program
 int main(int argc, char* argv[])
 {
@@ -32,19 +38,20 @@ int main(int argc, char* argv[])
 		printf("No file to read in.");
 	}
 	else {
-		while (!feof(in) && (fscanf(in, "%d", &num) == 1) && (i < ARR_SIZE)) {
+		while ((fscanf(in, "%d", &num) != EOF) && (i < ARR_SIZE)) {
 			arr[i] = num;
 			i++;
 		}
+		fclose(in);
 	}
-	int size = sizeof(arr)/sizeof(arr[0]);
+	//printf("%d\n", i);
 
 	printf("Given array is \n"); 
-    print_list(arr, size); 
+    print_list(arr, i); 
 
-	while (g != size) {
+	while (g != i) {
 		//get first half of array
-		if (f < (size / 2)) {
+		if (f < (i / 2)) {
 			first_half[f] = arr[f];
 			f++;
 		} //second half
@@ -55,6 +62,8 @@ int main(int argc, char* argv[])
 		}
 		g++;
 	}
+	print_list(first_half, f);
+	print_list(second_half, h);
 
 	pthread_t tid[NUM_THREADS];
 
@@ -68,7 +77,7 @@ int main(int argc, char* argv[])
 	}
 
     printf("\nSorted array is \n"); 
-    print_list(arr, size);
+    print_list(arr, i);
   
 /*
 	int arr_size = sizeof(arr)/sizeof(arr[0]);
