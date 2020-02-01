@@ -30,9 +30,12 @@ int main(int argc, char *argv[])
 
     in = fopen(argv[1],"r");
 
+    //input numbers from file into array
     while (!feof (in) && fscanf (in, "%d", &num) && i++ < NUM_THREADS){
         arr[i] = num;
     }
+
+    int arr_size = sizeof(arr)/sizeof(arr[0]);
 
     pthread_t tid[NUM_THREADS]; //thread identifier
     pthread_attr_t attr[NUM_THREADS]; //set of thread attributes
