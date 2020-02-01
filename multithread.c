@@ -17,7 +17,6 @@ int first_half[] = {};
 int second_half[] = {};
 int threadpart = 1;
 
-
 //Need to do
 //dup so you can compare both runtimes
 //find arr to put in with fgets
@@ -28,6 +27,7 @@ int main(int argc, char* argv[])
 {
 	FILE *in;
 	FILE *out;
+	int *first_half, *second_half;
 
 	in = fopen(argv[1], "r");
 	int i = 0;
@@ -49,18 +49,21 @@ int main(int argc, char* argv[])
 	printf("Given array is \n"); 
     print_list(arr, i); 
 
+	first_half = (int*)calloc((i/2), sizeof(int));
+	second_half = (int*)calloc((i/2), sizeof(int));
+
 	while (g != i) {
 		//get first half of array
 		if (f < (i / 2)) {
-			first_half[f] = arr[f];
+			first_half[f] = arr[g];
 			f++;
 		} //second half
 		else {
-			second_half[h] = arr[f];
+			second_half[h] = arr[g];
 			h++;
-			f++;
 		}
 		g++;
+		//printf("%d, %d, %d,\n", g, f, h);
 	}
 	print_list(first_half, f);
 	print_list(second_half, h);
@@ -77,11 +80,9 @@ int main(int argc, char* argv[])
 	}
 
     printf("\nSorted array is \n"); 
-    print_list(arr, i);
-  
-/*
-	int arr_size = sizeof(arr)/sizeof(arr[0]);
-    qsort(arr, 6, sizeof(int), cmpfunc);*/
+    print_list(first_half, f);
+	print_list(second_half, h);
+    //print_list(arr, i);
     return 0;
 } 
 
