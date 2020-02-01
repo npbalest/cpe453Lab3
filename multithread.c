@@ -12,8 +12,8 @@ int cmpfunc (const void * a, const void * b);
 void print_list(int array[], int size);
 
 int arr[ARR_SIZE] = {};
-int first_half = NULL;
-int second_half = NULL;
+int *first_half;
+int *second_half;
 int threadpart = 1;
 
 
