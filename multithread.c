@@ -48,8 +48,8 @@ int main(int argc, char* argv[])
     printf("Given array is \n"); 
     print_list(arr, i); 
 
-    int first_half[] = (int *)malloc(sizeof(int)*(i/2));
-    int second_half[] = (int *)malloc(sizeof(int)*(i/2));
+    first_half[] = (int *)malloc(sizeof(int)*(i/2));
+    second_half[] = (int *)malloc(sizeof(int)*(i/2));
 
     if(first_array == NULL) {
       printf("first malloc of size %d failed!\n", i);   // could also call perror here
