@@ -2,88 +2,102 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <pthread.h>
 
+#define NUM_THREADS 2
+#define ARR_SIZE 20
 
-void merge_sort(int array[], int left, int right);
 void merge(int array[], int left, int right, int middle);
-void printArray(int A[], int size);
+void *sorting(void *param);
+int cmpfunc (const void * a, const void * b);
+void print_list(int array[], int size);
 
-//int main (int argc, char *argv[]) {}
+int arr[ARR_SIZE] = {};
+int first_half[] = {};
+int second_half[] = {};
+int threadpart = 1;
 
+//Driver program
+int main(int argc, char* argv[])
+{
+	FILE *in;
+	FILE *out;
 
-//merge sort function used with help from geeksforgeek algorithm
-void merge_sort(int array[], int left, int right) {
-	if (left < right) {
-		int middle = left + ((right-left) / 2);
+	in = fopen(argv[1], "r");
+	int i = 0;
+	int num;
+	int g, h, f; //for splitting arrays
 
-		merge_sort(array, left, middle);
-		merge_sort(array, middle+1, right);
-		merge(array, left, right, middle);
+	if (in == NULL) {
+		printf("No file to read in.");
 	}
-}
-
-void merge(int array[], int left, int right, int middle) {
-	int a, b;
-	int i = middle - left + 1;
-	int j = right - middle;
-
-	int temp1[i];
-	int temp2[j];
-
-	for (a = 0; a < i; a++) {
-		temp1[a] = array[a + left];
-	}
-	for (b = 0; b < j; b++) {
-		temp2[b] = array[b + middle + 1];
-	}
-
-	a = 0;
-	b = 0;
-	int c = left;
-
-	while ((a < i) && (b < j)) {
-		if (temp1[a] <= temp2[b]) {
-			array[c] = temp1[a];
-			a++;
+	else {
+		while (!feof(in) && (fscanf(in, "%d", &num) == 1) && (i < ARR_SIZE)) {
+			arr[i] = num;
+			i++;
 		}
+	}
+	int size = sizeof(arr)/sizeof(arr[0]);
+
+	printf("Given array is \n"); 
+    print_list(arr, size); 
+
+	while (g != size) {
+		//get first half of array
+		if (f < (size / 2)) {
+			first_half[f] = arr[f];
+			f++;
+		} //second half
 		else {
-			array[c] = temp2[b];
-			b++;
+			second_half[h] = arr[f];
+			h++;
+			f++;
 		}
-		c++;
+		g++;
 	}
-	while (a < i) {
-		array[c] = temp1[a];
-		a++;
-		c++;
+
+	pthread_t tid[NUM_THREADS];
+
+
+	for (int b = 0; b < NUM_THREADS; b++) {
+		pthread_create(&tid[b], NULL, sorting, NULL);
 	}
-	while (b < j) {
-		array[c] = temp2[b];
-		b++;
-		c++;
+
+	for (int c = 0; c < NUM_THREADS; c++) {
+		pthread_join(tid[i], NULL);
 	}
+
+    printf("\nSorted array is \n"); 
+    print_list(arr, size);
+  
+/*
+	int arr_size = sizeof(arr)/sizeof(arr[0]);
+    qsort(arr, 6, sizeof(int), cmpfunc);*/
+    return 0;
+} 
+
+
+void *sorting(void *param) {
+	if (threadpart == 1) {
+		threadpart++;
+		qsort(first_half, ( sizeof(first_half)/sizeof(first_half[0]) ), sizeof(int), cmpfunc);
+	}
+	else {
+		qsort(second_half, ( sizeof(second_half)/sizeof(second_half[0])), sizeof(int), cmpfunc);
+	}
+	pthread_exit(0);
 }
 
-void print_list(int array[], int size) 
-{ 
+
+//for builtin qsorting 
+int cmpfunc (const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
+
+//want to print list to view
+void print_list(int array[], int size) { 
     int i; 
     for (i = 0; i < size; i++) 
         printf("%d ", array[i]); 
     printf("\n"); 
-} 
-  
-/* Driver program to test above functions */
-int main() 
-{ 
-    int arr[] = {12, 11, 13, 5, 6, 7}; 
-    int arr_size = sizeof(arr)/sizeof(arr[0]); 
-  
-    printf("Given array is \n"); 
-    print_list(arr, arr_size); 
-  
-    merge_sort(arr, 0, arr_size - 1); 
-  
-    printf("\nSorted array is \n"); 
-    print_list(arr, arr_size); 
-    return 0; 
 } 
