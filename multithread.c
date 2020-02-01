@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
 	printf("Time for multithreading \n");
 	printf("%f\n", elapsed);
 
-	out = fopen("answer.txt", "w");
+	out = fopen("output_multithread.txt", "w");
 	for(n = 0; n < i; n++) {
 		fprintf(out,"%d ",arr[n]);
 	}
