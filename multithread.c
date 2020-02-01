@@ -7,11 +7,7 @@
 #include <string.h>
 
 #define NUM_THREADS 2
-<<<<<<< HEAD
 #define ARR_SIZE 3000000
-=======
-#define ARR_SIZE 300
->>>>>>> ceb147ade22592ee3018db489c299212835bc9cb
 
 void merge(int array[], int left, int right, int middle);
 void *sorting(void *param);
@@ -22,13 +18,6 @@ int arr[ARR_SIZE] = {};
 int arr_copy[ARR_SIZE] = {};
 int threadpart = 0;
 
-<<<<<<< HEAD
-=======
-//Need to do
-//dup so you can compare both runtimes
-//find arr to put in with fgets
-
->>>>>>> ceb147ade22592ee3018db489c299212835bc9cb
 //Driver program
 int main(int argc, char* argv[])
 {
@@ -38,20 +27,10 @@ int main(int argc, char* argv[])
 	in = fopen(argv[1], "r");
 	int i = 0;
 	int num;
-<<<<<<< HEAD
 	int b = 0, c = 0, n = 0; //for threads for loops
 
 	struct timespec start, start_1, finish, finish_1;
 	double elapsed, elapsed_1;
-=======
-	int b = 0, c = 0; //for threads for loops
-	int n = 0;
-
-	struct timespec start, start_1, finish, finish_1;
-	double elapsed, elapsed_1; 
-
-	pthread_t tid[NUM_THREADS];
->>>>>>> ceb147ade22592ee3018db489c299212835bc9cb
 
 	if (in == NULL) {
 		printf("No file to read in.");
@@ -63,10 +42,7 @@ int main(int argc, char* argv[])
 		}
 		fclose(in);
 	}
-	//printf("Given array is \n"); 
-    //print_list(arr, i);
 
-<<<<<<< HEAD
  //    printf("Number of ints in file (i): %d\n", i); 
 
 	// printf("Given array is \n"); 
@@ -85,19 +61,7 @@ int main(int argc, char* argv[])
 
 
 	clock_gettime(CLOCK_MONOTONIC, &start); 
-=======
-    memcpy(arr_copy, arr, i*sizeof(int));
 
-    clock_gettime(CLOCK_MONOTONIC, &start_1); 
-	qsort(arr_copy, i, sizeof(int), cmpfunc);
-	clock_gettime(CLOCK_MONOTONIC, &finish_1);
-	elapsed_1 = (finish.tv_sec - start.tv_sec);
-	elapsed_1 += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-	printf("Time for sequential \n");
-	printf("%f\n", elapsed_1);
->>>>>>> ceb147ade22592ee3018db489c299212835bc9cb
-
-	clock_gettime(CLOCK_MONOTONIC, &start); 
 	for (b = 0; b < NUM_THREADS; b++) {
 		pthread_create(&tid[b], NULL, sorting, (void*)(intptr_t)i);
 	}
@@ -105,20 +69,7 @@ int main(int argc, char* argv[])
 	for (c = 0; c < NUM_THREADS; c++) {
 		pthread_join(tid[c], NULL);
 	}
-    merge(arr, 0, (i-1), (i-1)/2);
-	clock_gettime(CLOCK_MONOTONIC, &finish);
-	elapsed = (finish.tv_sec - start.tv_sec);
-	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-	printf("Time for multithreading \n");
-	printf("%f\n", elapsed);	
 
-	out = fopen("answer.txt", "w");
-	for(n = 0; n < i; n++) {
-		fprintf(out,"%d ",arr[n]);
-	}
-	fclose(out);
-
-<<<<<<< HEAD
     // printf("After threads array is \n"); 
     // print_list(arr, i);
 
@@ -137,9 +88,6 @@ int main(int argc, char* argv[])
 	fclose(out);
 
     // printf("After merge \n"); 
-=======
-    //printf("After merge \n"); 
->>>>>>> ceb147ade22592ee3018db489c299212835bc9cb
     //print_list(arr, i);
 
     return 0;
@@ -206,7 +154,6 @@ void merge(int array[], int left, int right, int middle) {
 void *sorting(void *param) {
 	threadpart++;
 	if (threadpart == 1) {
-<<<<<<< HEAD
 		int size = (intptr_t)param;
 		// printf("1st half\n");
 		if(size % 2 != 0){
@@ -239,20 +186,6 @@ void *sorting(void *param) {
 		// } else {
 		// 	print_list(&arr[size/2], size/2);
 		// }
-=======
-		//printf("1st half\n");
-		//print_list(arr, size/2);
-		qsort(arr, size/2, sizeof(int), cmpfunc);
-		//printf("1st half sorted\n");
-		//print_list(arr, size/2);
-	}
-	else {
-		//printf("2nd half\n");
-		//print_list(&arr[size/2], size/2);
-		qsort(&arr[size/2], size/2, sizeof(int), cmpfunc);
-		//printf("2nd half sorted\n");
-		//print_list(&arr[size/2], size/2);
->>>>>>> ceb147ade22592ee3018db489c299212835bc9cb
 	}
 	pthread_exit(0);
 }
